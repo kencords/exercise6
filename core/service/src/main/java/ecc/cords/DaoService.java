@@ -6,19 +6,28 @@ public class DaoService{
 
 	private Dao dao = new Dao();
 
-	public <T> List<T> getAllElements(final Class<T> type){
+	public <E> void deleteElement(E e){
+		dao.delete(e);
+	}
+
+	public <E> List<E> getAllElements(final Class<E> type){
 		return dao.getAll(type);
 	}
 
-	public <T> T getElement(T t){
-      	return dao.get(t);
+	public <E> List<E> getElements(String query, final Class<E> type) {
+    	return dao.getByQuery(query, type);
     }
 
-    public <T> T getElement(final long id, final Class<T> type){
+	public <E> E getElement(E e){
+      	return dao.get(e);
+    }
+
+    public <E> E getElement(final long id, final Class<E> type){
       	return dao.get(id,type);
     }
 
-	public <T> void saveElement(T t) {
-		dao.save(t);
+	public <E> void saveElement(E e) {
+		dao.save(e);
 	}
+
 }

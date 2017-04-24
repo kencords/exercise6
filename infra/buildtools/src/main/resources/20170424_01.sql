@@ -10,6 +10,13 @@ CREATE TABLE addresses(
 	zipcode VARCHAR(10) NOT NULL
 );
 
+CREATE TABLE contacts(
+	contact_id SERIAL PRIMARY KEY,
+	landline VARCHAR(20),
+	mobile VARCHAR(20),
+	email VARCHAR(45)
+);
+
 CREATE TABLE employees (
 	emp_id SERIAL PRIMARY KEY,
 	lastname VARCHAR(25) NOT NULL,
@@ -17,18 +24,12 @@ CREATE TABLE employees (
 	middlename VARCHAR(25) NOT NULL,
 	suffix VARCHAR(25),
 	title VARCHAR(25),
-	address INT REFERENCES addresses(addr_id),
+	addr_id INT REFERENCES addresses(addr_id),
+	contact_id INT REFERENCES contacts(contact_id),
 	birthdate DATE NOT NULL,
 	gwa FLOAT NOT NULL,
 	hiredate DATE NOT NULL,
 	currentlyhired BOOL NOT NULL
-);
-
-CREATE TABLE contacts(
-	emp_id INT REFERENCES employees(emp_id),
-	landline VARCHAR(20),
-	mobile VARCHAR(20),
-	email VARCHAR(45)
 );
 
 CREATE TABLE roles(

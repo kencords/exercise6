@@ -1,5 +1,6 @@
 package ecc.cords;
 
+import java.util.Arrays;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.Criteria;
@@ -17,36 +18,18 @@ public class Dao{
 	}
 
 	public <T> void save(final T t){
-		Session session = initSession();
-		Transaction tx = null;
-		try{
-			tx = session.getTransaction();
-			session.save(t);
-			tx.commit();
-			tx = null;
-		}catch(HibernateException e){
-			if(tx!=null) tx.rollback();
-			e.printStackTrace();
-		}finally{
-			session.close();
-		}
-	}
+      Session session = initSession();
+      session.save(t);
+	  session.getTransaction().commit();
+      session.close();
+    }
 
-	public <T> void delete(final T t){
-		Session session = initSession();
-		Transaction tx = null;
-		try{
-			tx = session.getTransaction();
-			session.delete(t);
-			tx.commit();
-			tx = null;
-		}catch(HibernateException e){
-			if(tx!=null) tx.rollback();
-			e.printStackTrace();
-		}finally{
-			session.close();
-		}
-	}
+    public <T> void delete(final T t){
+      Session session = initSession();
+      session.delete(t);
+	  session.getTransaction().commit();
+      session.close();
+    }
 
 	public <T> T get(final long id, final Class<T> type){
 		Session session = initSession();
@@ -66,6 +49,13 @@ public class Dao{
 	public <T> List<T> getAll(final Class<T> type) {
       Session session = initSession();
       List<T> list = session.createCriteria(type).list();
+      session.close();
+      return list;
+    }
+
+    public <T> List<T> getByQuery(String query, final Class<T> type) {
+      Session session = initSession();
+      List<T> list = session.createQuery(query).list();
       session.close();
       return list;
     }

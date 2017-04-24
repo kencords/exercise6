@@ -1,33 +1,23 @@
 package ecc.cords;
 
 public class Contact{
-	private long empId;
-	private Employee employee;
+	private long contactId;
 	private String landline, mobile, email;
 
 	public Contact(){}
 
-	public Contact(Employee employee, String landline, String mobile, String email){
-		this.employee = employee;
+	public Contact(String landline, String mobile, String email){
 		this.landline = landline;
 		this.mobile = mobile;
 		this.email = email;
 	}
 
-	public long getEmpId(){
-		return empId;
+	public long getContactId(){
+		return contactId;
 	}
 
-	private void setEmpId(long empId){
-		this.empId = empId;
-	}
-
-	public Employee getEmployee(){
-		return employee;
-	}
-
-	public void setEmployee(Employee employee){
-		this.employee = employee;
+	private void setContactId(long contactId){
+		this.contactId = contactId;
 	}
 
 	public String getLandline(){

@@ -74,7 +74,7 @@ public class InputHelper{
 		return str;
 	}
 
-	public static float askPositiveFloat(String msg, boolean isOptional) throws Exception {
+	public static float askPositiveFloat(String msg, boolean isOptional){
 		String tmp = null;
 		float val = 0;
 		
@@ -92,7 +92,7 @@ public class InputHelper{
 		return val;
 	}
 
-	public static int askPositiveNumber(String msg, boolean isOptional) throws Exception {
+	public static int askPositiveNumber(String msg, boolean isOptional){
 		String tmp;
 		int val = 0;
 		do {

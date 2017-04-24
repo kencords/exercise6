@@ -6,12 +6,9 @@
 <hibernate-mapping package="ecc.cords">
    
    <class name="Contact" table="contacts">
-      <id name="empId" column="emp_id" type="long">
-         <generator class="foreign">
-            <param name="property">employee</param>
-         </generator>
+      <id name="contactId" column="contact_id" type="long">
+         <generator class="increment"/>
       </id>
-      <one-to-one name="employee" class="Employee" constrained="true"/>
       <property name="landline" column="landline" type="string"/>
       <property name="mobile" column="mobile" type="string"/>
       <property name="email" column="email" type="string"/>
