@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="ecc.cords">
+
+	<class name="Address" table="addresses">
+      <id name="addrId" column="addr_id" type="long" unsaved-value="0">
+         <generator class="increment"/>
+      </id>
+      <property name="streetNo" column="str_no" type="int"/>
+      <property name="street" column="street" type="string"/>
+      <property name="city" column="city" type="string"/>
+      <property name="brgy" column="brgy" type="string"/>
+      <property name="zipcode" column="zipcode" type="string"/>
+   </class>
+
+</hibernate-mapping>
+
+

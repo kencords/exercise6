@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="ecc.cords">
+	
+	<class name="Role" table="roles">
+      <id name="roleId" type="long" column="role_id">
+         <generator class="increment"/>
+      </id>
+      <property name="role" column="role" type="string"/>
+      <set name="employees" table="employee_role" lazy="false" fetch="select" cascade="all">
+         <key column="role_id"/>
+         <many-to-many column="emp_id" class="Employee"/>
+      </set>
+   </class>
+
+</hibernate-mapping>
+
+
