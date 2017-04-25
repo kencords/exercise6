@@ -59,4 +59,11 @@ public class Dao{
       session.close();
       return list;
     }
+
+    public <T> void saveOrUpdate(final T t){
+    	Session session = initSession();
+    	session.saveOrUpdate(t);
+    	session.getTransaction().commit();
+    	session.close();
+    }
 }

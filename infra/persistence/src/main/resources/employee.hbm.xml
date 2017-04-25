@@ -18,8 +18,8 @@
 		<property name="hiredate" type="date" column="hiredate"/>
 		<property name="gwa" type="float" column="gwa"/>
 		<property name="currentlyHired" type="boolean" column="currentlyhired"/>
-		<many-to-one name="contact" column="contact_id" lazy="false" unique="true" not-null="true"/>
-		<set name="roles" table="employee_role" lazy="false" cascade="none">
+		<many-to-one name="contact" column="contact_id" cascade="all" lazy="false" unique="true" not-null="true"/>
+		<set name="roles" table="employee_role" lazy="false" cascade="save-update">
 	         <key column="emp_id"/>
 	         <many-to-many column="role_id" class="Role" lazy="false"/>
 		</set>	

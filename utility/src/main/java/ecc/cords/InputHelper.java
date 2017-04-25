@@ -109,7 +109,7 @@ public class InputHelper{
 		} while((tmp== null || tmp.isEmpty()) && !isOptional);		
 		return val;
 	}
-
+	
 	public static boolean isNumeric(String str){ 
 		try {
 			int val = Integer.parseInt(str);
