@@ -41,7 +41,7 @@ CREATE TABLE roles(
 CREATE TABLE employee_role(
 	emp_id INT REFERENCES employees(emp_id),
 	role_id INT REFERENCES roles(role_id),
-	primary key(emp_id,role_id)
+	PRIMARY KEY(emp_id,role_id)
 );
 
 

@@ -17,18 +17,11 @@ public class Dao{
 		return session;
 	}
 
-	public <T> void save(final T t){
-      Session session = initSession();
-      session.save(t);
-	  session.getTransaction().commit();
-      session.close();
-    }
-
     public <T> void delete(final T t){
-      Session session = initSession();
-      session.delete(t);
-	  session.getTransaction().commit();
-      session.close();
+    	Session session = initSession();
+    	session.delete(t);
+	  	session.getTransaction().commit();
+      	session.close();
     }
 
 	public <T> T get(final long id, final Class<T> type){
@@ -47,17 +40,24 @@ public class Dao{
 	}
 
 	public <T> List<T> getAll(final Class<T> type) {
-      Session session = initSession();
-      List<T> list = session.createCriteria(type).list();
-      session.close();
-      return list;
+      	Session session = initSession();
+      	List<T> list = session.createCriteria(type).list();
+      	session.close();
+      	return list;
     }
 
     public <T> List<T> getByQuery(String query, final Class<T> type) {
-      Session session = initSession();
-      List<T> list = session.createQuery(query).list();
-      session.close();
-      return list;
+      	Session session = initSession();
+      	List<T> list = session.createQuery(query).list();
+      	session.close();
+      	return list;
+    }
+
+	public <T> void save(final T t){
+      	Session session = initSession();
+      	session.save(t);
+	  	session.getTransaction().commit();
+      	session.close();
     }
 
     public <T> void saveOrUpdate(final T t){

@@ -17,7 +17,7 @@ public class AppUI{
 		while(true){
 			System.out.print("\033\143\n");
 			System.out.println("EMPLOYEE RECORDS SYSTEM v1.0");
-			System.out.println(logMsg);
+			System.out.println("\n" + logMsg);
 			logMsg = "";
 			System.out.println("\n1. ADD EMPLOYEE        5. SORT BY GWA");
 			System.out.println("2. DELETE EMPLOYEE     6. SORT BY LASTNAME");
@@ -59,7 +59,7 @@ public class AppUI{
 						System.out.println("Invalid Choice!");
 				}
 			}catch(Exception e){
-				String logMsg = e.getMessage();
+				logMsg = EmployeeManager.getLogMsg();
 			}
 		}
 	}
@@ -94,23 +94,23 @@ public class AppUI{
 		EmployeeManager.createContact(landline, mobile, email), curHired, hiredate, role_id);
 	}
 
-	private void deleteEmployee(){
+	private void deleteEmployee() throws Exception{
 		System.out.print("\033\143");
 		System.out.println("DELETE EMPLOYEE...\n\n");
 		System.out.println("EMPLOYEE LIST:");
 		System.out.println(EmployeeManager.getEmployees());
-		int id = InputHelper.askPositiveNumber("\nEnter Employee ID: ", false);
-		daoService.deleteElement(daoService.getElement((long) id, Employee.class));
+		int id = InputHelper.askPositiveNumber("\nEnter Employee ID: ", false);		
+		daoService.deleteElement(EmployeeManager.getEmployee(id));
 		logMsg = "Deleted Employee " + id + "!";
 	}
 
-	private void editEmployee(){
+	private void editEmployee() throws Exception{
 		System.out.print("\033\143");
 		System.out.println("EDIT EMPLOYEE...\n\n");
 		System.out.println("EMPLOYEE LIST:");
 		System.out.println(EmployeeManager.getEmployees());
 		int id = InputHelper.askPositiveNumber("\nEnter Employee ID: ", false);
-		Employee employee = daoService.getElement((long) id, Employee.class);
+		Employee employee = EmployeeManager.getEmployee(id);
 		manageEmployee(employee);
 	}
 
@@ -123,6 +123,9 @@ public class AppUI{
 			System.out.println("3. ADD/UPDATE CONTACT");
 			System.out.println("4. DELETE CONTACT");
 			System.out.println("5. BACK");
+
+			System.out.println(logMsg);
+			logMsg = "";
 
 			String choice = InputHelper.askChoice("What do you want to do? (Enter Choice Number): ");
 			int id = 0;
@@ -151,7 +154,7 @@ public class AppUI{
 				}
 				daoService.updateElement(employee);
 			}catch(Exception exception){
-				System.out.println(exception.getMessage());
+				logMsg = EmployeeManager.getLogMsg();
 			}
 		}
 	}
@@ -188,7 +191,7 @@ public class AppUI{
 		while(true){
 			System.out.print("\033\143");
 			System.out.println("MANAGE ROLES...");
-			System.out.println(logMsg);
+			System.out.println("\n"+logMsg);
 			logMsg = "";
 			System.out.println("\nROLES LIST:\n");
 			System.out.println(EmployeeManager.getRoles());
@@ -206,7 +209,7 @@ public class AppUI{
 						logMsg = EmployeeManager.createRole(InputHelper.askString("Enter Role Name: ", false).toUpperCase());
 						break;
 					case "2":
-						logMsg = EmployeeManager.updateRole(InputHelper.askPositiveNumber("Enter Role ID: ", false),
+						logMsg = EmployeeManager.updateRole(EmployeeManager.getRole(InputHelper.askPositiveNumber("Enter Role ID: ", false)),
 								 InputHelper.askString("Enter Role Name: ", false).toUpperCase());
 						break;
 					case "3":
@@ -216,7 +219,7 @@ public class AppUI{
 						return;
 				}
 			}catch(Exception exception){
-				logMsg = "Failed to process request...";
+				logMsg = EmployeeManager.getLogMsg();
 			}
 		}
 	}

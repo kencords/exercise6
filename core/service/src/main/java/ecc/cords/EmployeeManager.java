@@ -8,6 +8,7 @@ import java.util.Set;
 public class EmployeeManager{
 
 	private static DaoService daoService = new DaoService();
+	private static String logMsg = "";
 
 	public static String addEmployee(String lname, String fname, String mname, String suffix, String title, Date birthdate,
 	float gwa, Address address, Contact contact,boolean curHired, Date hiredate, int role_no) throws Exception{
@@ -16,11 +17,9 @@ public class EmployeeManager{
 			Set<Role> roles = new HashSet<>();
     		roles.add(addRole(role_no));
 			employee = new Employee(lname,fname,mname,suffix,title,birthdate,hiredate,gwa,curHired,address,contact,roles);
-
 			daoService.saveElement(employee);
 		}catch(Exception exception){
-			exception.printStackTrace();
-			throw new Exception("Employee Creation Failed!");
+			return "Employee Creation Failed!";
 		}
 		return "Employee Creation Successful!";
 	}
@@ -59,6 +58,18 @@ public class EmployeeManager{
 		return employee;
 	}
 
+	public static Employee getEmployee(int id) throws Exception{
+		Employee employee = new Employee();
+		try{
+			employee = daoService.getElement((long) id, Employee.class);
+			employee.getLastname();
+			return employee;
+		}catch(Exception exception){
+			logMsg = "Employee not found!";
+			throw exception;
+		}
+	}
+
 	public static String getEmployees(){
 		StringBuilder sb = new StringBuilder();
 		List<Employee> employees = daoService.getAllElements(Employee.class);
@@ -81,7 +92,6 @@ public class EmployeeManager{
 		sb.append("\nDATE HIRED: " + employee.getHiredate());
 		sb.append("\nCONTACTS: " + employee.getContact());
 		sb.append("\nROLES: " + employee.getRoles() + "\n");
-
 		return sb.toString();
 	}
 
@@ -93,7 +103,8 @@ public class EmployeeManager{
 			employee.setRoles(roles);
 			return employee;
 		}catch(Exception exception){
-			throw new Exception("Invalid role!");
+			logMsg = "Invalid role!";
+			throw new Exception("",exception);
 		}
 	}
 
@@ -118,15 +129,15 @@ public class EmployeeManager{
 
 	public static String deleteRole(int role_id) throws Exception{
 		Role role = getRole(role_id);
-		if(role.getEmployees().size()==0){
+		try{
 			daoService.deleteElement(role);
 			return "Successfully deleted role " + role.getRole() + "!";
+		}catch(Exception e){
+			return "Role " + role.getRole() + " cannot be deleted!";
 		}
-		return "Role " + role.getRole() + " cannot be deleted!";
 	}
 
-	public static String updateRole(int role_id, String role_name) throws Exception{
-		Role role = getRole(role_id);
+	public static String updateRole(Role role, String role_name) throws Exception{
 		String prev_name = role.getRole();
 		if(role.getEmployees().size()==0){
 			role.setRole(role_name);
@@ -150,6 +161,18 @@ public class EmployeeManager{
 		return sb.toString();
 	}
 
+	public static Role getRole(int role_id) throws Exception{
+		Role role = new Role();
+		try{
+			role = daoService.getElement((long) role_id, Role.class);
+			role.getRole();
+		}catch(Exception exception){
+			logMsg = "Role does not exist!";
+			throw exception;
+		}
+		return role;
+	}
+
 	public static String getRoles(){
 		StringBuilder sb = new StringBuilder();
 		daoService.getAllElements(Role.class).stream()
@@ -158,18 +181,12 @@ public class EmployeeManager{
 		return sb.toString();
 	}
 
-	private static Role addRole(long roleId){
-		return daoService.getElement(roleId, Role.class);
+	public static String getLogMsg(){
+		return logMsg;
 	}
 
-	private static Role getRole(int role_id) throws Exception{
-		Role role = new Role();
-		try{
-			role = daoService.getElement((long) role_id, Role.class);
-		}catch(Exception exception){
-			throw new Exception("Role does not exist!");
-		}
-		return role;
+	private static Role addRole(long roleId){
+		return daoService.getElement(roleId, Role.class);
 	}
 
 	private static <T> T create(T t){

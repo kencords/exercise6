@@ -1,6 +1,6 @@
 <!DOCTYPE hibernate-configuration PUBLIC
 "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
-"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+"http://hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 
 <hibernate-configuration>
 
@@ -13,7 +13,7 @@
 		<property name="transaction.factory_class">org.hibernate.transaction.JDBCTransactionFactory</property>
 		<property name="dialect">org.hibernate.dialect.PostgreSQLDialect</property>
 		<property name="current_session_context_class">thread</property>
-
+		
 		<mapping resource="employee.hbm.xml"/>
 		<mapping resource="role.hbm.xml"/>
 		<mapping resource="address.hbm.xml"/>
