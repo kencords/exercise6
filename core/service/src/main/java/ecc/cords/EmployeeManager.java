@@ -25,13 +25,13 @@ public class EmployeeManager{
 	}
 
 	public static Address createAddress(int strNo,String street, String brgy, String city, String zipcode){
-		Address address = new Address(strNo,street,brgy,city,zipcode);
-		return (Address) create(address);
+		return new Address(strNo,street,brgy,city,zipcode);
 	}
 
 	public static Contact createContact(String landline, String mobile, String email) throws Exception{
 		Contact contact = new Contact(landline, mobile, email);
-		return (Contact) create(contact);
+		daoService.saveElement(contact);
+		return daoService.getElement(contact);
 	}
 
 	public static String getEmployeeDetails(List<Employee> employees, String msg){
@@ -187,14 +187,5 @@ public class EmployeeManager{
 
 	private static Role addRole(long roleId){
 		return daoService.getElement(roleId, Role.class);
-	}
-
-	private static <T> T create(T t){
-		try{
-			return daoService.getElement(t);
-		}catch(Exception exception){
-			daoService.saveElement(t);
-			return daoService.getElement(t);
-		}
 	}
 }
