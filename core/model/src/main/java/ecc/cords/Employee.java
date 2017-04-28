@@ -5,20 +5,19 @@ import java.util.Set;
 
 public class Employee{
 
-    private long empId;
+    private Long empId;
     private String lastname,firstname,middlename,suffix,title;
     private Date birthdate, hiredate;
     private float gwa;
     private boolean currentlyHired;
     private Address address;
-    private Contact contact;
+    private Set<Contact> contacts;
     private Set<Role> roles;
 
     public Employee(){}
     
     public Employee(String lastname, String firstname, String middlename, String suffix, String title,
-    Date birthdate, Date hiredate, float gwa, boolean currentlyHired, Address address, Contact contact,
-    Set<Role> roles){
+    Date birthdate, Date hiredate, float gwa, boolean currentlyHired, Address address, Set<Role> roles){
         this.lastname = lastname;
         this.firstname = firstname;
         this.middlename = middlename;
@@ -29,15 +28,14 @@ public class Employee{
         this.gwa = gwa;
         this.currentlyHired = currentlyHired;
         this.address = address;
-        this.contact = contact;
         this.roles = roles;
     }
 
-    public long getEmpId(){
+    public Long getEmpId(){
         return empId;
     }
 
-    private void setEmpId(long empId){
+    private void setEmpId(Long empId){
         this.empId = empId;
     }
 
@@ -121,12 +119,12 @@ public class Employee{
         this.address = address;
     }
 
-    public Contact getContact(){
-        return contact;
+    public Set<Contact> getContacts(){
+        return contacts;
     }
 
-    public void setContact(Contact contact){
-        this.contact = contact;
+    public void setContacts(Set<Contact> contacts){
+        this.contacts = contacts;
     }
 
     public Set<Role> getRoles(){

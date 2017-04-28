@@ -14,16 +14,16 @@ public class DaoService{
 		return dao.getAll(type);
 	}
 
+  	public <E> List<E> getByQuery(String query, final Class<E> type) {
+    	return dao.getByQuery(query, type);
+    }
+
 	public <E> E getElement(E e){
       	return dao.get(e);
     }
 
     public <E> E getElement(final long id, final Class<E> type){
       	return dao.get(id,type);
-    }
-
-    public <E> List<E> getElements(String query, final Class<E> type) {
-    	return dao.getByQuery(query, type);
     }
 
 	public <E> void saveElement(E e) {

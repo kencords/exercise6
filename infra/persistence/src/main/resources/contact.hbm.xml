@@ -9,9 +9,10 @@
       <id name="contactId" column="contact_id" type="long">
          <generator class="increment"/>
       </id>
-      <property name="landline" column="landline" type="string"/>
-      <property name="mobile" column="mobile" type="string"/>
-      <property name="email" column="email" type="string"/>
+      <property name="contactType" column="contact_type" type="string"/>
+      <property name="contactValue" column="contact_value" type="string"/>
+
+      <many-to-one name="employee" class="Employee" column="emp_id" not-null="true"/>
    </class>
 
 </hibernate-mapping>

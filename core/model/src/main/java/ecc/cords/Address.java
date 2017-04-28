@@ -1,7 +1,6 @@
 package ecc.cords;
 
 public class Address{
-	private long addrId;
 	private int streetNo;
 	private String street, brgy, city, zipcode;
 
@@ -13,14 +12,6 @@ public class Address{
 		this.brgy = brgy;
 		this.city = city;
 		this.zipcode = zipcode;
-	}
-
-	public long getAddrId(){
-		return addrId;
-	}
-
-	private void setAddrId(long addrId){
-		this.addrId = addrId;
 	}
 
 	public int getStreetNo(){

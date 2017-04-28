@@ -5,24 +5,35 @@
 
 <hibernate-mapping package="ecc.cords">
 	<class name="Employee" table="Employees">
-		<id name="empId" column="emp_id" type="long">
-			<generator class="increment"/>
-		</id>
+	   	<id name="empId" column="emp_id" type="long">
+        	<generator class="increment"/>
+      	</id> 
       	<property name="lastname" type="string" column="lastname"/>
 		<property name="firstname" type="string" column="firstname"/>
 		<property name="middlename" type="string" column="middlename"/>
       	<property name="suffix" type="string" column="suffix"/>
       	<property name="title" type="string" column="title"/>
-		<many-to-one name="address" column="addr_id" class="Address" cascade="save-update" lazy="false"/>
 		<property name="birthdate" type="date" column="birthdate"/>
 		<property name="hiredate" type="date" column="hiredate"/>
 		<property name="gwa" type="float" column="gwa"/>
 		<property name="currentlyHired" type="boolean" column="currentlyhired"/>
-		<many-to-one name="contact" column="contact_id" cascade="all" lazy="false" unique="true" not-null="true"/>
+
+		<component name="address" class="Address">
+			<property name="streetNo" column="str_no" type="int"/>
+     		<property name="street" column="street" type="string"/>
+      		<property name="city" column="city" type="string"/>
+     	    <property name="brgy" column="brgy" type="string"/>
+      		<property name="zipcode" column="zipcode" type="string"/>
+		</component>
+
+      	<set name="contacts" inverse="true" cascade="all" lazy="false">
+        	<key column="emp_id" not-null="true"/>
+         	<one-to-many class="Contact"/>
+      	</set>
 		<set name="roles" table="employee_role" lazy="false" cascade="save-update">
-	         <key column="emp_id"/>
-	         <many-to-many column="role_id" class="Role" lazy="false"/>
-		</set>	
+	      	<key column="emp_id"/>
+	      	<many-to-many column="role_id" class="Role" lazy="false"/>
+		</set>
 	</class>
 </hibernate-mapping>
 

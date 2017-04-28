@@ -5,7 +5,7 @@ import java.util.Set;
 
 public class Role{
 
-	private long roleId;
+	private Long roleId;
 	private String role;
 	private Set<Employee> employees = new HashSet<>();
 
@@ -15,11 +15,11 @@ public class Role{
 		this.role = role;
 	}
 
-	public long getRoleId(){
+	public Long getRoleId(){
 		return roleId;
 	}
 
-	private void setRoleId(long roleId){
+	private void setRoleId(Long roleId){
 		this.roleId = roleId;
 	}
 

@@ -11,12 +11,14 @@ public class EmployeeManager{
 	private static String logMsg = "";
 
 	public static String addEmployee(String lname, String fname, String mname, String suffix, String title, Date birthdate,
-	float gwa, Address address, Contact contact,boolean curHired, Date hiredate, int role_no) throws Exception{
+	float gwa, Address address, Set<Contact> contacts, boolean curHired, Date hiredate, int role_no) throws Exception{
 		Employee employee;
 		try{
 			Set<Role> roles = new HashSet<>();
-    		roles.add(addRole(role_no));
-			employee = new Employee(lname,fname,mname,suffix,title,birthdate,hiredate,gwa,curHired,address,contact,roles);
+    		roles.add(addRole(Long.valueOf(role_no)));
+			employee = new Employee(lname,fname,mname,suffix,title,birthdate,hiredate,gwa,curHired,address,roles);
+			contacts.forEach(contact -> contact.setEmployee(employee));
+			employee.setContacts(contacts);
 			daoService.saveElement(employee);
 		}catch(Exception exception){
 			return "Employee Creation Failed!";
@@ -28,12 +30,50 @@ public class EmployeeManager{
 		return new Address(strNo,street,brgy,city,zipcode);
 	}
 
-	public static Contact createContact(String landline, String mobile, String email) throws Exception{
-		Contact contact = new Contact(landline, mobile, email);
-		daoService.saveElement(contact);
-		return daoService.getElement(contact);
+	public static Contact createContact(String contactType, String contactValue){
+		return new Contact(contactType, contactValue);
 	}
 
+	public static Employee addContact(Employee employee, Set<Contact> contacts){
+		contacts.forEach(contact -> { 
+			contact.setEmployee(employee);
+			employee.getContacts().add(contact);
+		});
+		return employee;
+	}
+
+	public static void updateContact(Employee employee, Contact contact, String contactValue){
+		employee.getContacts().remove(contact);
+		contact.setContactValue(contactValue);
+		employee.getContacts().add(contact);
+		daoService.updateElement(contact);
+	}
+
+	public static void deleteContact(Employee employee, Contact contact) throws Exception{
+		if(employee.getContacts().size()==1){
+			logMsg = "Employee must have atleast one contact!";
+			throw new Exception();
+		}
+		employee.getContacts().remove(contact);
+		daoService.deleteElement(contact);
+	}
+
+	public static Contact getContact(Long emp_id, int contact_id) throws Exception{
+		Contact contact = new Contact();
+		try{
+			contact = daoService.getElement(Long.valueOf(contact_id), Contact.class);
+			contact.getContactType();
+		}catch(Exception exception){
+			logMsg = "Contact does not exist!";
+			throw exception;
+		}
+		if(contact.getEmployee().getEmpId()!= Long.valueOf(emp_id)){
+			logMsg = "Contact does not belong to Employee " + emp_id + "!";
+			throw new Exception();
+		} 
+		return contact;
+	}
+	
 	public static String getEmployeeDetails(List<Employee> employees, String msg){
 		StringBuilder sb = new StringBuilder();
 		sb.append("\n" + msg + "\n");
@@ -41,27 +81,10 @@ public class EmployeeManager{
 		return sb.toString(); 
 	}
 
-	public static Employee updateContact(Employee employee, String landline, String mobile, String email, String type)
-	throws Exception{
-		Contact contact = employee.getContact();
-		if(type.equals("landline"))
-			contact.setLandline(landline);
-		else if(type.equals("mobile"))
-			contact.setMobile(mobile);
-		else if(type.equals("email"))
-			contact.setEmail(email);
-		if(contact.getLandline().equals("") && contact.getMobile().equals("") && contact.getEmail().equals("")){
-			throw new Exception("Employee must atleast have one contact detail!");
-		}
-		daoService.updateElement(contact);
-		employee.setContact(contact);
-		return employee;
-	}
-
 	public static Employee getEmployee(int id) throws Exception{
 		Employee employee = new Employee();
 		try{
-			employee = daoService.getElement((long) id, Employee.class);
+			employee = daoService.getElement(Long.valueOf(id), Employee.class);
 			employee.getLastname();
 			return employee;
 		}catch(Exception exception){
@@ -90,7 +113,10 @@ public class EmployeeManager{
 		sb.append("\nGWA: " + employee.getGwa());
 		sb.append("\nCURRENTLY HIRED: " + employee.isCurrentlyHired());
 		sb.append("\nDATE HIRED: " + employee.getHiredate());
-		sb.append("\nCONTACTS: " + employee.getContact());
+		sb.append("\nCONTACTS: "); 
+		employee.getContacts().stream()
+							  .sorted((c1,c2) -> Long.compare(c1.getContactId(),c2.getContactId()))
+							  .forEach(contact -> sb.append("\n" + contact));
 		sb.append("\nROLES: " + employee.getRoles() + "\n");
 		return sb.toString();
 	}
@@ -98,7 +124,7 @@ public class EmployeeManager{
 	public static Employee addEmployeeRole(Employee employee, int role_id) throws Exception{
 		try{
 			Set<Role> roles = employee.getRoles();
-			Role role = daoService.getElement((long) role_id, Role.class);
+			Role role = daoService.getElement(Long.valueOf(role_id), Role.class);
 			roles.add(role);
 			employee.setRoles(roles);
 			return employee;
@@ -110,7 +136,7 @@ public class EmployeeManager{
 
 	public static Employee deleteEmployeeRole(Employee employee, int role_id){
 		Set<Role> roles = employee.getRoles();
-		Role role = daoService.getElement((long) role_id, Role.class);
+		Role role = daoService.getElement(Long.valueOf(role_id), Role.class);
 		roles.remove(role);
 		employee.setRoles(roles);
 		return employee;
@@ -164,7 +190,7 @@ public class EmployeeManager{
 	public static Role getRole(int role_id) throws Exception{
 		Role role = new Role();
 		try{
-			role = daoService.getElement((long) role_id, Role.class);
+			role = daoService.getElement(Long.valueOf(role_id), Role.class);
 			role.getRole();
 		}catch(Exception exception){
 			logMsg = "Role does not exist!";
@@ -185,7 +211,7 @@ public class EmployeeManager{
 		return logMsg;
 	}
 
-	private static Role addRole(long roleId){
+	private static Role addRole(Long roleId){
 		return daoService.getElement(roleId, Role.class);
 	}
 }

@@ -65,12 +65,12 @@ public class InputHelper{
 		return str;
 	}
 
-	public static String askEmail(String msg, boolean isOptional){
+	public static String askEmail(String msg){
 		String str = "";
 		do{
 			System.out.print(msg);
 			str = input.nextLine();
-		}while((str==null||str.isEmpty()) && !isOptional && !Utils.isValidEmail(str));
+		}while(!Utils.isValidEmail(str));
 		return str;
 	}
 

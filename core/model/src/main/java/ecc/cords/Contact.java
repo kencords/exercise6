@@ -1,56 +1,52 @@
 package ecc.cords;
 
 public class Contact{
-	private long contactId;
-	private String landline, mobile, email;
+	private Long contactId;
+	private String contactType, contactValue;
+	private Employee employee;
 
 	public Contact(){}
 
-	public Contact(String landline, String mobile, String email){
-		this.landline = landline;
-		this.mobile = mobile;
-		this.email = email;
+	public Contact(String contactType, String contactValue){
+		this.contactType = contactType;
+		this.contactValue = contactValue;
 	}
 
-	public long getContactId(){
+	public Long getContactId(){
 		return contactId;
 	}
 
-	private void setContactId(long contactId){
+	private void setContactId(Long contactId){
 		this.contactId = contactId;
 	}
 
-	public String getLandline(){
-		return landline;
+	public Employee getEmployee(){
+		return employee;
 	}
 
-	public void setLandline(String landline){
-		this.landline = landline;
+	public void setEmployee(Employee employee){
+		this.employee = employee;
 	}
 
-	public String getMobile(){
-		return mobile;
+	public String getContactType(){
+		return contactType;
 	}
 
-	public void setMobile(String mobile){
-		this.mobile = mobile;
+	public void setContactType(String contactType){
+		this.contactType = contactType;
 	}
 
-	public String getEmail(){
-		return email;
+	public String getContactValue(){
+		return contactValue;
 	}
 
-	public void setEmail(String email){
-		this.email = email;
+	public void setContactValue(String contactValue){
+		this.contactValue = contactValue;
 	}
 
 	@Override	
 	public String toString(){
-		StringBuilder sb = new StringBuilder();
-		sb.append("Landline: " + landline)
-		  .append(" Mobile: " + mobile)
-		  .append(" Email: " + email);
-		return sb.toString();
+		return "[" + this.contactId + "][" + this.contactType + ": " + this.contactValue + "]";
 	}
 
 	@Override
@@ -60,13 +56,13 @@ public class Contact{
 
         Contact tmp = (Contact) obj;
 
-         return this.landline.equals(tmp.getLandline()) && this.mobile.equals(tmp.getMobile())
-         && this.email.equals(tmp.getEmail());
+         return this.contactType.equals(tmp.getContactType()) 
+         && this.contactValue.equals(tmp.getContactValue());
         
    }
 
    @Override
    	public int hashCode() {
-        return java.util.Objects.hash(landline,mobile,email);
+        return java.util.Objects.hash(contactType, contactValue);
     }
 }
