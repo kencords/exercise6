@@ -10,71 +10,70 @@ public class InputHelper{
 
 	private InputHelper(){}
 
-	public static boolean askBoolean(String msg){
+	public static boolean askBoolean(String msg) {
 		String bool = "";
-		do{
+		do {
 			System.out.print(msg);
 			bool = input.nextLine().toUpperCase();
-		}while(!bool.toUpperCase().matches("Y|N"));
+		} while(!bool.toUpperCase().matches("Y|N"));
 		return bool.equals("Y");
 	}
 
-	public static String askChoice(String msg){
+	public static String askChoice(String msg) {
 		System.out.print(msg);
 		return input.nextLine();
 	}
 
-	public static Date askDate(String msg) throws Exception{
+	public static Date askDate(String msg) throws Exception {
 		String date;
-		do{
+		do {
 			System.out.print(msg);
 			date = input.nextLine();
-		}while(!Utils.isValidDate(date));
-
+		} while(!Utils.isValidDate(date));
 		return new SimpleDateFormat("yyyy-MM-dd").parse(date);
 	}
 
-	public static String askString(String msg, boolean isOptional){
+	public static String askString(String msg, boolean isOptional) {
 		String str = "";
-		do{
+		do {
 			System.out.print(msg);
 			str = input.nextLine();
-		}while((str == null || str.isEmpty()) && !isOptional);
+		} while((str == null || str.isEmpty()) && !isOptional);
 		return str;
 	}
 
-	public static String askLandline(String msg){
+	public static String askLandline(String msg) {
 		String str = "";
-		do{
-			System.out.print(msg);
-			str = input.nextLine();
-			if(str.equals(""))
-				break;
-		}while(!Utils.isValidLandline(str));
-		return str;
-	}
-
-	public static String askMobile(String msg){
-		String str = "";
-		do{
+		do {
 			System.out.print(msg);
 			str = input.nextLine();
 			if(str.equals(""))
 				break;
-		}while(!Utils.isValidMobile(str));
+		} while(!Utils.isValidLandline(str));
 		return str;
 	}
 
-	public static String askEmail(String msg){
+	public static String askMobile(String msg) {
 		String str = "";
-		do{
+		do {
 			System.out.print(msg);
 			str = input.nextLine();
-		}while(!Utils.isValidEmail(str));
+			if(str.equals(""))
+				break;
+		} while(!Utils.isValidMobile(str));
 		return str;
 	}
 
-	public static float askPositiveFloat(String msg, boolean isOptional){
+	public static String askEmail(String msg) {
+		String str = "";
+		do {
+			System.out.print(msg);
+			str = input.nextLine();
+		} while(!Utils.isValidEmail(str));
+		return str;
+	}
+
+	public static float askPositiveFloat(String msg, boolean isOptional) {
 		String tmp = null;
 		float val = 0;
 		
@@ -92,7 +91,7 @@ public class InputHelper{
 		return val;
 	}
 
-	public static int askPositiveNumber(String msg, boolean isOptional){
+	public static int askPositiveNumber(String msg, boolean isOptional) {
 		String tmp;
 		int val = 0;
 		do {
@@ -110,7 +109,7 @@ public class InputHelper{
 		return val;
 	}
 	
-	public static boolean isNumeric(String str){ 
+	public static boolean isNumeric(String str) { 
 		try {
 			int val = Integer.parseInt(str);
 			return true;

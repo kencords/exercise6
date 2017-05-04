@@ -10,7 +10,7 @@
          <generator class="increment"/>
       </id>
       <property name="role" column="role" type="string"/>
-      <set name="employees" table="employee_role" lazy="false" fetch="select" cascade="save-update" inverse="true">
+      <set name="employees" table="employee_role" lazy="false" fetch="select" inverse="true">
          <key column="role_id"/>
          <many-to-many column="emp_id" class="Employee"/>
       </set>

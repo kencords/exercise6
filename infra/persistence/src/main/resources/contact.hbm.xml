@@ -12,9 +12,10 @@
       <property name="contactType" column="contact_type" type="string"/>
       <property name="contactValue" column="contact_value" type="string"/>
 
-      <many-to-one name="employee" class="Employee" column="emp_id" not-null="true"/>
+      <many-to-one name="employee" class="Employee" column="emp_id" not-null="true" />
    </class>
 
 </hibernate-mapping>
 
 
+   

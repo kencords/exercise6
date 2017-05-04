@@ -7,45 +7,45 @@ public class Contact{
 
 	public Contact(){}
 
-	public Contact(String contactType, String contactValue){
+	public Contact(String contactType, String contactValue) {
 		this.contactType = contactType;
 		this.contactValue = contactValue;
 	}
 
-	public Long getContactId(){
+	public Long getContactId() {
 		return contactId;
 	}
 
-	private void setContactId(Long contactId){
+	private void setContactId(Long contactId) {
 		this.contactId = contactId;
 	}
 
-	public Employee getEmployee(){
+	public Employee getEmployee() {
 		return employee;
 	}
 
-	public void setEmployee(Employee employee){
+	public void setEmployee(Employee employee) {
 		this.employee = employee;
 	}
 
-	public String getContactType(){
+	public String getContactType() {
 		return contactType;
 	}
 
-	public void setContactType(String contactType){
+	public void setContactType(String contactType) {
 		this.contactType = contactType;
 	}
 
-	public String getContactValue(){
+	public String getContactValue() {
 		return contactValue;
 	}
 
-	public void setContactValue(String contactValue){
+	public void setContactValue(String contactValue) {
 		this.contactValue = contactValue;
 	}
 
 	@Override	
-	public String toString(){
+	public String toString() {
 		return "[" + this.contactId + "][" + this.contactType + ": " + this.contactValue + "]";
 	}
 

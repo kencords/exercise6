@@ -11,36 +11,36 @@ public class Role{
 
 	public Role(){}
 
-	public Role(String role){
+	public Role(String role) {
 		this.role = role;
 	}
 
-	public Long getRoleId(){
+	public Long getRoleId() {
 		return roleId;
 	}
 
-	private void setRoleId(Long roleId){
+	private void setRoleId(Long roleId) {
 		this.roleId = roleId;
 	}
 
-	public String getRole(){
+	public String getRole() {
 		return role;
 	}
 
-	public void setRole(String role){
+	public void setRole(String role) {
 		this.role = role;
 	}
 
-	public Set<Employee> getEmployees(){
+	public Set<Employee> getEmployees() {
 		return employees;
 	}
 
-	public void setEmployees(Set<Employee> employees){
+	public void setEmployees(Set<Employee> employees) {
 		this.employees = employees;
 	}
 
 	@Override
-	public String toString(){
+	public String toString() {
 		return roleId + ": " + role;
 	}
 

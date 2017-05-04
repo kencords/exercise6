@@ -4,7 +4,7 @@ CREATE DATABASE employeedb OWNER kcordero;
 
 USE employeedb;
 
-CREATE TABLE employees (
+CREATE TABLE employees(
 	emp_id SERIAL PRIMARY KEY,
 	lastname VARCHAR(25) NOT NULL,
 	firstname VARCHAR(55) NOT NULL,

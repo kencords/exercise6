@@ -42,7 +42,7 @@
           <configuration>
               <archive>
                   <manifest>
-                    <mainClass>ecc.cords.ExerciseSix_Main</mainClass>
+                    <mainClass>ecc.cords.AppUI</mainClass>
                   </manifest>
               </archive>
               <descriptorRefs>
