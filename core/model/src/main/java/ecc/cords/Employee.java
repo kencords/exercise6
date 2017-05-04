@@ -21,8 +21,8 @@ public class Employee{
 
     public Employee(){}
     
-    public Employee(String lastName, String firstName, String middleName, String suffix, String title,
-    Date birthDate, Date hireDate, float gwa, boolean currentlyHired, Address address, Set<Role> roles){
+    public Employee(String lastName, String firstName, String middleName, String suffix, String title, Date birthDate, 
+        Date hireDate, float gwa, boolean currentlyHired, Address address, Set<Contact> contacts, Set<Role> roles){
         this.lastName = lastName;
         this.firstName = firstName;
         this.middleName = middleName;
@@ -33,6 +33,7 @@ public class Employee{
         this.gwa = gwa;
         this.currentlyHired = currentlyHired;
         this.address = address;
+        this.contacts = contacts;
         this.roles = roles;
     }
 

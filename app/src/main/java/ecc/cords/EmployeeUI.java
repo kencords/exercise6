@@ -13,7 +13,7 @@ public class EmployeeUI {
 	private static DaoService daoService = new DaoService();
 	private static String logMsg = "";
 
-	public void addEmployee() throws Exception {
+	public String addEmployee() throws Exception {
 		System.out.print("\033\143");
 		System.out.println("ADD NEW EMPLOYEE...\n\n");
 		System.out.println("BASIC INFORMATION");
@@ -35,21 +35,61 @@ public class EmployeeUI {
 		System.out.println("\nCAREER INFORMATION");
 		boolean curHired = InputHelper.askBoolean("Is currently hired? (Y|N): ");
 		Date hiredate = InputHelper.askDate("Enter Date Hired (yyyy-mm-dd): ");
-		System.out.println("\nROLES LIST:\n" + RoleUI.getInstance().getRoles());
-		int role_id = InputHelper.askPositiveNumber("What Role? (Enter role number): ", false);
-		logMsg = EmployeeManager.addEmployee(lastname, firstname, middlename, suffix, title, birthdate, gwa,
+		Set<Role> roles = RoleUI.getInstance().askRoles();
+		return EmployeeManager.addEmployee(lastname, firstname, middlename, suffix, title, birthdate, gwa,
 		EmployeeManager.createAddress(streetNo, street, brgy, city, zipcode), 
-		contacts, curHired, hiredate, role_id);
+		contacts, curHired, hiredate, roles);
 	}
 
-	public void deleteEmployee() throws Exception {
+	public Employee editEmployeeDetails(Employee employee) throws Exception {
+		System.out.println("\n1. EDIT NAME");
+		System.out.println("2. EDIT BIRTHDATE");
+		System.out.println("3. EDIT ADDRESS");
+		System.out.println("4. EDIT GWA");
+		System.out.println("5. EDIT CAREER INFORMATION");
+		System.out.println("6. BACK");
+		String choice = InputHelper.askChoice("\nWhat do you want to do? (Enter Choice Number): ");
+
+		switch(choice) {
+			case "1":
+				editEmployeeName(employee);
+				break;
+			case "2":
+				System.out.println("\nEDIT BIRTHDATE\n");
+				employee.setBirthDate(InputHelper.askDate("Enter Birthdate (yyyy-mm-dd): "));
+				logMsg = "Successfully edited Employee Birthdate!";
+				break;
+			case "3":
+				editEmployeeAddress(employee);
+				break;
+			case "4":
+				System.out.println("\nEDIT GWA\n");
+				employee.setGwa(InputHelper.askPositiveFloat("Enter GWA (float): ", false));
+				logMsg = "Successfully edited Employee GWA!";
+				break;
+			case "5":
+				System.out.println("\nEDIT CAREER INFORMATION\n");
+				employee.setCurrentlyHired(InputHelper.askBoolean("Is currently hired? (Y|N): "));
+				employee.setHireDate(InputHelper.askDate("Enter Date Hired (yyyy-mm-dd): "));
+				logMsg = "Successfully edited Employee CAREER INFORMATION!"; 
+				break;
+			case "6":
+				return employee;
+			default:
+				System.out.println("Invalid Choice!");
+		}
+
+		return employee;
+	}
+
+	public String deleteEmployee() throws Exception {
 		System.out.print("\033\143");
 		System.out.println("DELETE EMPLOYEE...\n\n");
 		System.out.println("EMPLOYEE LIST:");
 		System.out.println(getEmployees());
 		int id = InputHelper.askPositiveNumber("\nEnter Employee ID: ", false);		
 		daoService.deleteElement(EmployeeManager.getEmployee(id));
-		logMsg = "Deleted Employee " + id + "!";
+		return "Deleted Employee " + id + "!";
 	}
 
 	public void editEmployee() throws Exception {
@@ -92,12 +132,13 @@ public class EmployeeUI {
 	public void manageEmployee(Employee employee) {
 		while(true) {
 			System.out.println(getEmployeeDetail(daoService.getElement(employee.getEmpId(), Employee.class),""));
-			System.out.println("1. ADD ROLE");
-			System.out.println("2. DELETE ROLE");
-			System.out.println("3. ADD CONTACT");
-			System.out.println("4. UPDATE CONTACT");
-			System.out.println("5. DELETE CONTACT");
-			System.out.println("6. BACK");
+			System.out.println("1. EDIT EMPLOYEE DETAILS");
+			System.out.println("2. ADD ROLE");
+			System.out.println("3. DELETE ROLE");
+			System.out.println("4. ADD CONTACT");
+			System.out.println("5. UPDATE CONTACT");
+			System.out.println("6. DELETE CONTACT");
+			System.out.println("7. BACK");
 			System.out.println(logMsg.equals("")? "" : "\n" + logMsg + "\n");
 			logMsg = "";
 			String choice = InputHelper.askChoice("What do you want to do? (Enter Choice Number): ");
@@ -105,24 +146,27 @@ public class EmployeeUI {
 			try {
 				switch(choice) {
 					case "1":
+						employee = editEmployeeDetails(employee);
+						break;
+					case "2":
 						System.out.println("\n" + RoleUI.getInstance().getFilteredRoles(employee));
 						id = InputHelper.askPositiveNumber("What Role? (Enter Role ID): ", false);
 						employee = EmployeeManager.addEmployeeRole(employee, id);
 						break;
-					case "2":
+					case "3":
 						id = InputHelper.askPositiveNumber("What Role? (Enter Role ID to delete): ", false);
 						employee = EmployeeManager.deleteEmployeeRole(employee, id);
 						break;
-					case "3":
+					case "4":
 						employee = EmployeeManager.addContact(employee, ContactUI.getInstance().askContacts(false));
 						break;
-					case "4":
+					case "5":
 						ContactUI.getInstance().manageContact(employee, false);
 						break;	
-					case "5":
+					case "6":
 						ContactUI.getInstance().manageContact(employee, true);
 						break;
-					case "6":
+					case "7":
 						return;
 					default:
 						System.out.println("Invalid Choice!");
@@ -132,6 +176,28 @@ public class EmployeeUI {
 				logMsg = EmployeeManager.getLogMsg();
 			}
 		}
+	}
+
+	private Employee editEmployeeName(Employee employee) {
+		System.out.println("\nEDIT EMPLOYEE NAME\n");
+		employee.setLastName(InputHelper.askString("Enter Lastname: ", false));
+		employee.setFirstName(InputHelper.askString("Enter Firstname: ", false));
+		employee.setMiddleName(InputHelper.askString("Enter Middlemae: ", false));
+		employee.setSuffix(InputHelper.askString("Enter Suffix: ", true));
+		employee.setTitle(InputHelper.askString("Enter Title: ", true));
+		logMsg = "Successfully edited Employee Name!";
+		return employee;
+	}
+
+	private Employee editEmployeeAddress(Employee employee) {
+		System.out.println("\nEDIT EMPLOYEE ADDRESS\n");
+		employee.getAddress().setStreetNo(InputHelper.askPositiveNumber("Enter Street No: ", false));
+		employee.getAddress().setStreet(InputHelper.askString("Enter Street: ", false));
+		employee.getAddress().setBrgy(InputHelper.askString("Enter Barangay: ", false));
+		employee.getAddress().setCity(InputHelper.askString("Enter City: ", false));
+		employee.getAddress().setZipcode(InputHelper.askString("Enter Zipcode: ", false));
+		logMsg = "Successfully edited Employee Address!";
+		return employee;
 	}
 
 	private String emphasizeText(String msg) {

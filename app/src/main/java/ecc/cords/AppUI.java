@@ -28,10 +28,10 @@ public class AppUI{
 
 				switch(choice){
 					case "1":
-						EmployeeUI.getInstance().addEmployee();
+						logMsg = EmployeeUI.getInstance().addEmployee();
 						break;
 					case "2":
-						EmployeeUI.getInstance().deleteEmployee();
+						logMsg = EmployeeUI.getInstance().deleteEmployee();
 						break;
 					case "3":
 						EmployeeUI.getInstance().editEmployee();

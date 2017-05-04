@@ -11,14 +11,11 @@ public class EmployeeManager{
 	private static String logMsg = "";
 
 	public static String addEmployee(String lname, String fname, String mname, String suffix, String title, Date birthdate,
-	float gwa, Address address, Set<Contact> contacts, boolean curHired, Date hiredate, int role_no) throws Exception {
+	float gwa, Address address, Set<Contact> contacts, boolean curHired, Date hiredate, Set<Role> roles){
 		Employee employee;
 		try {
-			Set<Role> roles = new HashSet<>();
-    		roles.add(addRole(Long.valueOf(role_no)));
-			employee = new Employee(lname, fname, mname, suffix, title, birthdate, hiredate, gwa, curHired, address, roles);
+			employee = new Employee(lname, fname, mname, suffix, title, birthdate, hiredate, gwa, curHired, address, contacts, roles);
 			contacts.forEach(contact -> contact.setEmployee(employee));
-			employee.setContacts(contacts);
 			daoService.saveElement(employee);
 		} catch(Exception exception) {
 			return "Employee Creation Failed!";

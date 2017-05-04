@@ -1,5 +1,11 @@
 package ecc.cords;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 public class RoleUI {
 
 	private static RoleUI roleUI = null;
@@ -43,6 +49,38 @@ public class RoleUI {
 				}
 			}
 		}
+	}
+
+	public Set<Role> askRoles()	{
+		Set<Role> roles = new HashSet<>();
+		List<Role> availRoles = daoService.getAllElements(Role.class);
+		while(true)	{
+			System.out.println("\nROLES LIST:\n");
+			availRoles = availRoles.stream()
+		 						   .filter(role -> !roles.contains(role))
+		  			 			   .sorted((role1,role2) -> Long.compare(role1.getRoleId(), role2.getRoleId()))
+			   		  			   .collect(Collectors.toList());									 
+			if(availRoles.size()==0) {
+				break;
+			}
+			availRoles.forEach(System.out::println);
+			int role_id = InputHelper.askPositiveNumber("What Role? (Enter role number): ", false);
+			try {
+				roles.add(EmployeeManager.getRole(role_id));
+			} catch(Exception exception){
+				System.out.println(EmployeeManager.getLogMsg() + "\n");
+				continue;
+			}
+			boolean isDone = InputHelper.askBoolean("Done adding roles? (Y|N): ");
+			if(isDone && roles.size()!=0) {
+				break;
+			}
+			else if(isDone && roles.size()==0) {
+				System.out.println("Please add atleast one role!");
+				continue;
+			}
+		}
+		return roles;
 	}
 
 	public String getFilteredRoles(Employee employee) {
